@@ -1,23 +1,24 @@
-import React from 'react';
+import React from "react";
+import { Suspense } from "react";
+import BlogSummaryCardList from "@/components/BlogSummaryCardList";
+import styles from "./homepage.module.css";
+import Spinner from "@/components/Spinner";
+import { BLOG_TITLE } from "@/constants";
 
-import BlogSummaryCard from '@/components/BlogSummaryCard';
-
-import styles from './homepage.module.css';
+export async function generateMetadata() {
+  return {
+    title: BLOG_TITLE,
+    description: "A wonderful blog about JavaScript",
+  };
+}
 
 function Home() {
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.mainHeading}>
-        Latest Content:
-      </h1>
-
-      {/* TODO: Iterate over the data read from the file system! */}
-      <BlogSummaryCard
-        slug="example"
-        title="Hello world!"
-        abstract="This is a placeholder, an example which shows how the “BlogSummaryCard” component should be used. You'll want to swap this out based on the data from the various MDX files!"
-        publishedOn={new Date()}
-      />
+      <h1 className={styles.mainHeading}>Latest Content:</h1>
+      <Suspense fallback={<Spinner />}>
+        <BlogSummaryCardList />
+      </Suspense>
     </div>
   );
 }
